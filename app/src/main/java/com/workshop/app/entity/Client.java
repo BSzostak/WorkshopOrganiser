@@ -1,8 +1,7 @@
-package com.workshop.app.client;
+package com.workshop.app.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,17 +15,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    @Size(max = 50)
+    @Column(nullable = false, length = 50)
     private String firstName;
-    @Column(nullable = false)
-    @Size(max = 50)
+    @Column(nullable = false, length = 50)
     private String lastName;
     @Column(nullable = false)
     private String phoneNumber;

@@ -1,8 +1,9 @@
 package com.workshop.app.service;
 
-import com.workshop.app.client.Client;
-import com.workshop.app.client.dto.ClientResponse;
-import com.workshop.app.client.dto.CreateClientRequest;
+import com.workshop.app.entity.Client;
+import com.workshop.app.dto.ClientResponse;
+import com.workshop.app.dto.CreateClientRequest;
+import com.workshop.app.exception.EmailAlreadyTakenException;
 import com.workshop.app.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,12 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     public ClientResponse createClient(CreateClientRequest request){
-        Client entity = new Client(request.firstName(), request.lastName(), request.phoneNumber(), request.email());
+        Client entity = new Client(request.firstName(), request.lastName(), request.phoneNumber(), request.email().toLowerCase());
+        if(clientRepository.findByEmail(entity.getEmail()) != null){
+            throw new EmailAlreadyTakenException(entity.getEmail());
+        }
         Client savedClient = clientRepository.save(entity);
-    return new ClientResponse(savedClient.getFirstName(), savedClient.getLastName(), savedClient.getPhoneNumber());
+    return mapClientToResponse(savedClient);
     }
 
     public List<ClientResponse> getAllClients(){

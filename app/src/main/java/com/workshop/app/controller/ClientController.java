@@ -1,8 +1,9 @@
 package com.workshop.app.controller;
 
-import com.workshop.app.client.dto.ClientResponse;
-import com.workshop.app.client.dto.CreateClientRequest;
+import com.workshop.app.dto.ClientResponse;
+import com.workshop.app.dto.CreateClientRequest;
 import com.workshop.app.service.ClientService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,12 +18,13 @@ import java.util.List;
 public class ClientController {
     private final ClientService clientService;
 
+    @Transactional
     @PostMapping
     public ResponseEntity<ClientResponse> createClient(@Valid @RequestBody CreateClientRequest request) {
         ClientResponse savedClient = clientService.createClient(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedClient);
     }
-
+    @Transactional
     @GetMapping
     public ResponseEntity<List<ClientResponse>> getAllClients(){
         List<ClientResponse> clients = clientService.getAllClients();
