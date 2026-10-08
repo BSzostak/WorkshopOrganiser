@@ -1,4 +1,4 @@
-package com.workshop.app.client.dto;
+package com.workshop.app.dto;
 
 public record ClientResponse(String firstName,
                              String lastName,

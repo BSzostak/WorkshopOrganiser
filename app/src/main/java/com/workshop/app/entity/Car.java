@@ -1,6 +1,6 @@
-package com.workshop.app.car;
+package com.workshop.app.entity;
 
-import com.workshop.app.client.Client;
+import com.workshop.app.car.FuelType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@AllArgsConstructor
+@Table(name = "cars")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -20,16 +20,17 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     @Size(min = 17, max = 17)
     private String vin;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String registrationNumber;
+    @Column(nullable = false)
     private String brand;
+    @Column(nullable = false)
     private String model;
     @Min(value = 1950)
-    @Max(value = 2026)
-    private int productionYear;
+    private Integer productionYear;
     @Enumerated(EnumType.STRING)
     private FuelType fuelType;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
